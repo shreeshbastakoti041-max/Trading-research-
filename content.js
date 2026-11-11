@@ -35,7 +35,7 @@ const SITE = {
       firm: "Davis Student Investment Management Group",
       place: "University of Idaho",
       role: "Sector Head, Defensive Sector",
-      dates: "[Start] – Present",
+      dates: "Jan 2026 – Present",
       bullets: [
         "Lead the Defensive sector, which holds about 23% of a $2 million student-managed fund.",
         "Responsible for buy, sell and hold recommendations on sector holdings, presented to the fund for approval.",
