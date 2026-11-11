@@ -27,6 +27,12 @@ const SITE = {
     email: "",                  // e.g. "you@example.com"
     linkedin: "",               // e.g. "https://www.linkedin.com/in/your-name"
     headshot: "",               // e.g. "photos/headshot.jpg"
+    stats: [
+      { value: "$2M", label: "Student-managed fund" },
+      { value: "23%", label: "Defensive sector weight" },
+      { value: "5", label: "Published equity reports" },
+      { value: "Weekly", label: "Buy / sell / hold calls" }
+    ],
     researchNote: "Weekly reports written as Defensive Sector Head for a $2 million student-managed fund"
   },
 
