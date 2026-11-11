@@ -22,7 +22,7 @@ const SITE = {
     headline: "Equity research and portfolio management",
     about: "Defensive Sector Head at the Davis Student Investment Management Group at the University of Idaho, overseeing about 23% of a $2 million student-managed fund.",
     school: "University of Idaho",
-    program: "[Your major], Class of [year]",
+    program: "Double major: Statistics & Mathematics",
     location: "Moscow, Idaho",
     email: "",                  // e.g. "you@example.com"
     linkedin: "",               // e.g. "https://www.linkedin.com/in/your-name"
