@@ -30,7 +30,7 @@
   });
   h += '</div></section>';
 
-  h += '<section id="research"><div class="sec-head"><div><p class="sec-kicker">Equity Research · ' + S.reports.length + ' reports</p><h2>Published reports</h2><p class="sec-note">' + (p.researchNote ? esc(p.researchNote) + '. ' : '') + 'Click any report to read the full PDF.</p></div></div><div class="grid">';
+  h += '<section id="research"><div class="sec-head"><div><p class="sec-kicker">Equity Research · ' + S.reports.length + ' reports</p><h2>Reports</h2><p class="sec-note">' + (p.researchNote ? esc(p.researchNote) + '. ' : '') + 'Click any report to read the full PDF.</p></div></div><div class="grid">';
   S.reports.forEach(function (r) {
     var u = upside(r), link = esc(r.pdf || '#');
     h += '<article class="card"><a class="cover" href="' + link + '" target="_blank" rel="noopener" aria-label="Open ' + esc(r.company) + ' report">' + (r.cover ? '<img src="' + esc(r.cover) + '" alt="First page of the ' + esc(r.company) + ' report" loading="lazy">' : '<div class="noimg">' + esc(r.ticker || 'PDF') + '</div>') + '</a>';
