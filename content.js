@@ -26,7 +26,8 @@ const SITE = {
     location: "Moscow, Idaho",
     email: "",                  // e.g. "you@example.com"
     linkedin: "",               // e.g. "https://www.linkedin.com/in/your-name"
-    headshot: "",               // e.g. "photos/headshot.jpg"
+    headshot: "photos/headshot.jpg",
+    phone: "9866008857",
     stats: [
       { value: "$2M", label: "Student-managed fund" },
       { value: "23%", label: "Defensive sector weight" },

@@ -50,7 +50,8 @@
   }
 
   h += '<section id="contact"><div class="contact-band"><div><h2>Get in touch</h2><p>Open to internships in equity research, sales and trading, and asset management.</p></div><div class="contact">';
-  if (p.email) h += '<a href="mailto:' + esc(p.email) + '">' + esc(p.email) + '</a>';
+  if (p.phone) h += '<a href="tel:' + esc(p.phone.replace(/[^0-9+]/g, '')) + '">' + esc(p.phone) + '</a>';
+  if (p.email) h += '<a class="ghost" href="mailto:' + esc(p.email) + '">' + esc(p.email) + '</a>';
   if (p.linkedin) h += '<a class="ghost" href="' + esc(p.linkedin) + '" target="_blank" rel="noopener">LinkedIn</a>';
   h += '</div></div></section></main><footer class="wrap">© ' + new Date().getFullYear() + ' ' + esc(p.name) + '</footer>';
 
