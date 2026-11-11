@@ -19,8 +19,8 @@
 const SITE = {
   profile: {
     name: "Shreesh Bastakoti",
-    headline: "Derivatives trading and equity research",
-    about: "Defensive Sector Head at the Davis Student Investment Management Group, overseeing about 23% of a $2 million student-managed fund, and derivatives trader with Barker Trading and Capital Management Group at the University of Idaho.",
+    headline: "Equity research and portfolio management",
+    about: "Defensive Sector Head at the Davis Student Investment Management Group at the University of Idaho, overseeing about 23% of a $2 million student-managed fund.",
     school: "University of Idaho",
     program: "[Your major], Class of [year]",
     location: "Moscow, Idaho",
@@ -40,17 +40,6 @@ const SITE = {
         "Lead the Defensive sector, which holds about 23% of a $2 million student-managed fund.",
         "Responsible for buy, sell and hold recommendations on sector holdings, presented to the fund for approval.",
         "Publish weekly equity research reports covering earnings, valuation and outlook for names including Costco, Walmart, Procter & Gamble and Gilead."
-      ]
-    },
-    {
-      firm: "Barker Trading and Capital Management Group",
-      place: "University of Idaho",
-      role: "Derivatives Trader",
-      dates: "2025 – Present",
-      bullets: [
-        "Traded a $15,000 portfolio with full trading authority using options strategies validated through out-of-sample backtesting.",
-        "Executed a systematic index rotation strategy, using put-call parity deviations to identify mispriced options relative to the underlying index, and mean-reversion pairs trading to capture relative-value spreads.",
-        "Benchmarked returns against the S&P 500, using the 3-month T-bill as the risk-free rate, achieving a 4.2% excess return over [X months] with a Sharpe ratio of [X]."
       ]
     }
   ],
@@ -94,6 +83,6 @@ const SITE = {
   ],
 
   photos: [
-    // { src: "photos/team.jpg", caption: "Barker trading team, 2026" },
+    // { src: "photos/team.jpg", caption: "Davis fund team, 2026" },
   ]
 };
