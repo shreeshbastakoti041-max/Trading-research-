@@ -1,0 +1,1 @@
+Put your pictures in this folder, then list them in content.js.
