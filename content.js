@@ -15,8 +15,8 @@
 const SITE = {
   profile: {
     name: "Shreesh Bastakoti",
-    focus: "Equity Research · Portfolio Management · Quantitative Research",
-    lede: "Statistics and Mathematics student at the University of Idaho. I lead the Defensive sector of a $2 million student-managed portfolio, publish equity research on the companies we own, and study market regimes with probabilistic models.",
+    focus: "Equity Research · Portfolio Management",
+    lede: "Statistics and Mathematics student at the University of Idaho. I lead the Defensive sector of a $2 million student-managed portfolio and publish equity research on the companies we own.",
     headshot: "photos/headshot.jpg",
     location: "Moscow, Idaho",
     phone: "9866008857",
@@ -27,7 +27,6 @@ const SITE = {
       ["Current role", "Defensive Sector Head, Davis Student Investment Management Group"],
       ["Sector mandate", "About 23% of a $2 million student-managed portfolio"],
       ["Coverage", "MDLZ · COST · GILD · PG · WMT"],
-      ["Research", "Volatility regime detection, ICCUR Summer Undergraduate Research Fellowship"],
       ["Education", "B.S. Statistics and Mathematics (double major), University of Idaho"]
     ]
   },
@@ -86,42 +85,6 @@ const SITE = {
       summary: "E-commerce up 26% and advertising growth support a premium multiple, leaving limited room for further expansion.",
       authors: "Kaitlyn Arnold, Shreesh Bastakoti, Sadman Sakib",
       pdf: "reports/walmart.pdf", cover: "img/walmart-1.jpg"
-    }
-  ],
-
-  research: [
-    {
-      title: "A Probabilistic Framework for Volatility Regime Detection",
-      venue: "ICCUR Summer Undergraduate Research Fellowship",
-      year: "2026",
-      abstract: "Classifies the U.S. equity market into low, medium and high volatility regimes using 21 years of daily SPY data. A Gaussian Mixture Model and a three-state Hidden Markov Model identify the regimes; a Bayesian estimate of the transition matrix measures how persistent each regime is and where it tends to go next. The model is checked against known market events, on unseen 2025 data, and on a re-estimated 2022–2024 subsample.",
-      data: [
-        ["Universe", "SPY, daily, 2004–2025"],
-        ["Training / test", "5,246 trading days / 249 days (2025, out of sample)"],
-        ["Features", "Log return, 20-day realized volatility, volatility of volatility, 20-day rolling kurtosis, volume change"],
-        ["Models", "Gaussian Mixture Model (3 components), Gaussian HMM (3 states), Dirichlet-prior transition estimate"]
-      ],
-      method: [
-        ["Feature engineering", "Five daily features describing return, volatility level, volatility instability and tail shape, standardized before modeling."],
-        ["Regime identification", "A three-component GMM and a three-state HMM cluster trading days; states are labeled Low, Medium and High Vol by their realized-volatility profile."],
-        ["Bayesian transitions", "Observed state-to-state counts are combined with a Dirichlet prior to estimate the transition matrix, persistence and expected regime duration."],
-        ["Validation", "Regime shares are compared during the 2008 crisis, the 2020 crash and the 2022 bear market, then the trained model is applied without refitting to 2025."]
-      ],
-      transitions: {
-        labels: ["Low Vol", "Medium Vol", "High Vol"],
-        matrix: [[0.971, 0.022, 0.007], [0.026, 0.963, 0.011], [0.008, 0.046, 0.946]],
-        duration: [35.0, 27.0, 18.7]
-      },
-      events: [
-        ["Global Financial Crisis", 420, 4.52, 48.33, 47.14],
-        ["COVID crash", 62, 0.00, 27.42, 72.58],
-        ["2022 bear market", 188, 0.00, 90.43, 9.57]
-      ],
-      links: [
-        ["Code and notebooks on GitHub", "https://github.com/shreeshbastakoti041-max/Volatility-Regime-Detection-Model-ICCUR-SUMMER-FELLOWSHIP"],
-        ["Main notebook in Colab", "https://colab.research.google.com/github/shreeshbastakoti041-max/Volatility-Regime-Detection-Model-ICCUR-SUMMER-FELLOWSHIP/blob/main/Acamedicia_Research.ipynb"],
-        ["Robustness checks in Colab", "https://colab.research.google.com/github/shreeshbastakoti041-max/Volatility-Regime-Detection-Model-ICCUR-SUMMER-FELLOWSHIP/blob/main/Robustness_Check_.ipynb"]
-      ]
     }
   ]
 };
