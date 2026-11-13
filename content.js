@@ -10,7 +10,7 @@
   - To REMOVE a report: delete its whole { ... }, line.
   - Order on this list = order on the website.
   - cover is optional: put a picture in "img" or leave it as "".
-  - rating can be "Buy", "Hold", "Sell" or "" (shows Not rated).
+  - rating can be "Buy", "Bullish", "Hold", "Sell", "Bearish" or "" (shows Not rated).
   - To add photos: upload them into the "photos" folder and add
     { src: "photos/your-file.jpg", caption: "Your caption" },
   ============================================================
@@ -53,18 +53,18 @@ const SITE = {
 
   reports: [
     {
-      company: "Mondelez", ticker: "MDLZ", industry: "Confectioners", rating: "",
+      company: "Mondelez", ticker: "MDLZ", industry: "Confectioners", rating: "Hold",
       price: 59.32, target: 77, fair: "$77",
       summary: "Trades well below a $77 fair value while revenue, EBITDA and $4.1B of free cash flow keep growing; cocoa costs are the key risk.",
-      authors: "Kaitlyn Arnold, Shreesh Bastakoti, Sadman Sakib",
-      pdf: "reports/mondelez.pdf", cover: "img/mondelez-1.jpg"
+      authors: "Shreesh Bastakoti",
+      pdf: "reports/mondelez-2026-11.pdf", cover: "img/mondelez-2026-11.jpg"
     },
     {
-      company: "Costco", ticker: "COST", industry: "Consumer Staples", rating: "Hold",
+      company: "Costco", ticker: "COST", industry: "Consumer Staples", rating: "Bullish",
       price: 901.35, target: 1075, fair: "$1,029 – $1,036",
-      summary: "FY2026 sales up 10.2% with 92% membership renewal, but a ~46x P/E already prices in strong growth.",
+      summary: "FY2026 sales up 10.2% with 92% membership renewal; a premium ~46x P/E is backed by strong growth and a $1,075 target.",
       authors: "Shreesh Bastakoti, Kaitlyn Arnold, MD Sadman Sakib",
-      pdf: "reports/costco.pdf", cover: "img/costco-1.jpg"
+      pdf: "reports/costco-2026-11.pdf", cover: "img/costco-2026-11.jpg"
     },
     {
       company: "Gilead Sciences", ticker: "GILD", industry: "Drug Manufacturers", rating: "Hold",
@@ -74,11 +74,11 @@ const SITE = {
       pdf: "reports/gilead.pdf", cover: "img/gilead-1.jpg"
     },
     {
-      company: "Procter & Gamble", ticker: "PG", industry: "Household & Personal Products", rating: "",
+      company: "Procter & Gamble", ticker: "PG", industry: "Household & Personal Products", rating: "Bullish",
       price: 147.82, target: 161, fair: "$155",
-      summary: "Flat organic growth and slow EPS guidance make PG a stable ~3% dividend holding more than a growth pick.",
+      summary: "Strong brands and a ~3% dividend support a $161 target, even with flat organic growth and slow EPS guidance.",
       authors: "Kaitlyn Arnold, Shreesh Bastakoti, Sadman Sakib",
-      pdf: "reports/pg.pdf", cover: "img/pg-1.jpg"
+      pdf: "reports/pg-2026-11.pdf", cover: "img/pg-2026-11.jpg"
     },
     {
       company: "Walmart", ticker: "WMT", industry: "Discount Stores", rating: "Hold",

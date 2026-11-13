@@ -4,7 +4,7 @@
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function money(n) { var x = Number(n); return n !== '' && isFinite(x) && x ? '$' + x.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '—'; }
   function upside(r) { var a = Number(r.price), b = Number(r.target); return a && b ? (b - a) / a * 100 : null; }
-  function cls(r) { r = (r || '').toLowerCase(); return r === 'buy' || r === 'hold' || r === 'sell' ? r : 'none'; }
+  function cls(r) { r = (r || '').toLowerCase(); if (r === 'bullish') return 'buy'; if (r === 'bearish') return 'sell'; return r === 'buy' || r === 'hold' || r === 'sell' ? r : 'none'; }
   var parts = p.name.split(' '), last = parts.pop();
 
   document.title = p.name + ' | Portfolio';
