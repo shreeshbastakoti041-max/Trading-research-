@@ -5,7 +5,7 @@ WHAT'S IN THIS FOLDER
   index.html    the page (don't need to touch)
   styles.css    the look (don't need to touch)
   site.js       builds the page (don't need to touch)
-  content.js    ALL your text, reports and photos  <-- edit this one
+  content.js    ALL your text, reports, research and contact  <-- edit this one
   reports/      your PDF reports
   img/          report cover images
   photos/       put your own pictures here
