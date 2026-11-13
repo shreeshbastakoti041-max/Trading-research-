@@ -55,7 +55,7 @@ a{color:inherit}
 .band{background:var(--charcoal);color:var(--white)}
 .band .container{display:grid;grid-template-columns:1fr 1fr;gap:40px;padding-top:38px;padding-bottom:40px}
 .person{display:grid;grid-template-columns:100px 1fr;gap:24px;align-items:start}
-.person img{width:100px;height:100px;border-radius:50%;object-fit:cover;object-position:50% 22%;filter:grayscale(1) contrast(1.05)}
+.person img{width:100px;height:100px;border-radius:50%;object-fit:cover;object-position:50% 22%;}
 .statement{font-family:var(--font-display);font-weight:300;font-variation-settings:"opsz" 24;font-size:19.5px;line-height:1.27;margin:0 0 18px}
 .who b{display:block;color:var(--accent-dark);font-size:17px;letter-spacing:.01em;text-transform:uppercase}
 .who span{font-size:17px}

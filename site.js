@@ -46,10 +46,6 @@
     return t + '</article>';
   }
 
-  var mandate = '<aside class="tile dark"><h4>The mandate</h4>';
-  (job.figures || []).forEach(function (f) { mandate += '<div class="stat"><span class="big">' + esc(f[0]) + '</span><p>' + esc(f[1]) + '</p></div>'; });
-  mandate += '<p class="foot caps">' + esc(job.firm || '') + '</p></aside>';
-
   var guide = '<aside class="tile dark"><h4>How to read each report</h4>' +
     '<div class="tip"><b>1. Rating</b><p>Our call on the holding: Bullish, Hold or Bearish, as written in the report.</p></div>' +
     '<div class="tip"><b>2. Price and target</b><p>The share price when the report was written and our one-year price target.</p></div>' +
@@ -63,8 +59,7 @@
   var out = [];
   tiles.forEach(function (t, i) {
     out.push(t);
-    if (i === 1) out.push(mandate);
-    if (i === 3) out.push(guide);
+    if (i === 2) out.push(guide);
   });
   out.push(coverage);
   set('tiles', out.join(''));
