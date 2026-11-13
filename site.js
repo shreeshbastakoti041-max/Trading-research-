@@ -46,23 +46,8 @@
     return t + '</article>';
   }
 
-  var guide = '<aside class="tile dark"><h4>How to read each report</h4>' +
-    '<div class="tip"><b>1. Rating</b><p>Our call on the holding: Bullish, Hold or Bearish, as written in the report.</p></div>' +
-    '<div class="tip"><b>2. Price and target</b><p>The share price when the report was written and our one-year price target.</p></div>' +
-    '<div class="tip"><b>3. Implied upside</b><p>Target divided by price, minus one. Fair value is the estimate the report cites.</p></div></aside>';
-
-  var coverage = '<aside class="tile dark"><h4>Coverage at a glance</h4><table><caption class="visually-hidden">Ticker, rating and implied upside</caption><tbody>';
-  S.reports.forEach(function (r) { coverage += '<tr><td><a href="#r-' + esc(String(r.ticker).toLowerCase()) + '">' + esc(r.ticker) + '</a> · ' + esc(r.rating || 'Not rated') + '</td><td>' + pct(upside(r)) + '</td></tr>'; });
-  coverage += '</tbody></table><p class="foot caps" style="margin-top:auto;padding-top:18px">' + S.reports.length + ' reports</p></aside>';
-
   var tiles = S.reports.map(reportTile);
-  var out = [];
-  tiles.forEach(function (t, i) {
-    out.push(t);
-    if (i === 2) out.push(guide);
-  });
-  out.push(coverage);
-  set('tiles', out.join(''));
+  set('tiles', tiles.join(''));
 
   /* ---- experience ---- */
   h = '';

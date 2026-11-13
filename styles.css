@@ -11,10 +11,10 @@
   --text:#111111;
   --soft:#55575c;
   --rule:#d4d4d4;
-  --accent:#d9602b;        /* labels and links on white */
-  --accent-dark:#f2773f;   /* the same accent on dark tiles */
-  --gs-blue:#4a77b0;       /* Goldman-style blue for report links */
-  --gs-blue-hover:#2f5a92;
+  --accent:#3d6aa5;        /* Goldman-style blue on white */
+  --accent-dark:#9cbbe2;   /* the same blue, lightened for black and charcoal */
+  --gs-blue:#3d6aa5;
+  --gs-blue-hover:#244d85;
   --bullish:#2f7350;
   --hold:#8c6a1f;
   --font-display:"Source Serif 4", "Times New Roman", Georgia, serif;
@@ -72,8 +72,10 @@ a{color:inherit}
 .library{background:var(--grey);padding:46px 0 64px}
 .lede{max-width:var(--max);margin:0 auto 34px;padding:0 var(--gutter);font-size:17px;color:var(--text)}
 .lede strong{font-weight:700}
-.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.tile{background:var(--white);padding:22px 24px 24px;display:flex;flex-direction:column;min-height:400px}
+.tiles{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}
+.tiles > .tile{grid-column:span 2}
+.tiles > .tile:nth-child(n+4){grid-column:span 3}
+.tile{background:var(--white);padding:24px 28px 28px;display:flex;flex-direction:column;min-height:420px}
 .tile .n{font-family:var(--font-display);font-weight:300;font-variation-settings:"opsz" 60;font-size:62px;line-height:1;margin:0 0 34px}
 .tile h3{font-family:var(--font-display);font-weight:300;font-variation-settings:"opsz" 30;font-size:26px;line-height:1.12;letter-spacing:-.005em;margin:0 0 8px}
 .tile .meta{font-size:13px;color:var(--soft);margin:0 0 12px}
@@ -81,9 +83,11 @@ a{color:inherit}
 .tile dl{margin:0 0 18px;display:grid;grid-template-columns:auto 1fr;gap:3px 14px;font-size:13.5px;font-variant-numeric:tabular-nums}
 .tile dt{color:var(--soft)}
 .tile dd{margin:0;text-align:right;font-weight:700}
-.tile dd.rate-bullish{color:var(--bullish)} .tile dd.rate-hold{color:var(--hold)}
-.tile .go{margin-top:auto;color:var(--gs-blue);text-decoration:none;display:inline-flex;align-items:center;gap:8px;align-self:flex-start}
+.tile dd.rate-bullish,.tile dd.rate-hold{font-weight:900;font-size:13px;letter-spacing:.08em;text-transform:uppercase;-webkit-font-smoothing:auto}
+.tile dd.rate-bullish{color:#1e6a42} .tile dd.rate-hold{color:#7a5a12}
+.tile .go{margin-top:auto;color:var(--gs-blue);font-weight:900;letter-spacing:.06em;-webkit-font-smoothing:auto;text-decoration:none;display:inline-flex;align-items:center;gap:8px;align-self:flex-start}
 .tile .go svg{transition:transform .2s}
+.tile .go svg path{stroke-width:2.2}
 .tile a.go:hover{color:var(--gs-blue-hover)}
 .tile a.go:hover svg{transform:translateX(4px)}
 .tile.report{transition:box-shadow .2s}
@@ -131,6 +135,7 @@ footer p{margin:0}
 /* ---------- responsive ---------- */
 @media (max-width:1000px){
   .tiles{grid-template-columns:repeat(2,1fr)}
+  .tiles > .tile,.tiles > .tile:nth-child(n+4){grid-column:auto}
   .tile{min-height:0}
   .experience .container{grid-template-columns:1fr;gap:28px}
 }
