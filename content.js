@@ -18,7 +18,7 @@ const SITE = {
     focus: "Equity Research · Portfolio Management",
     lede: "Statistics and Mathematics student at the University of Idaho. I lead the Defensive sector of a $2 million student-managed portfolio and publish equity research on the companies we own.",
     headshot: "photos/headshot.jpg",
-    location: "Moscow, Idaho",
+    location: "Idaho",
     phone: "9866008857",
     email: "",                 // e.g. "you@example.com"
     linkedin: "",              // e.g. "https://www.linkedin.com/in/your-name"
