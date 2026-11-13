@@ -6,13 +6,15 @@
 :root{
   --black:#000000;
   --charcoal:#27282c;
-  --grey:#e7e7e7;
+  --grey:#edf2f8;          /* report area: cool, pale blue-grey */
   --white:#ffffff;
   --text:#111111;
   --soft:#55575c;
   --rule:#d4d4d4;
   --accent:#d9602b;        /* labels and links on white */
   --accent-dark:#f2773f;   /* the same accent on dark tiles */
+  --gs-blue:#4a77b0;       /* Goldman-style blue for report links */
+  --gs-blue-hover:#2f5a92;
   --bullish:#2f7350;
   --hold:#8c6a1f;
   --font-display:"Source Serif 4", "Times New Roman", Georgia, serif;
@@ -80,11 +82,12 @@ a{color:inherit}
 .tile dt{color:var(--soft)}
 .tile dd{margin:0;text-align:right;font-weight:700}
 .tile dd.rate-bullish{color:var(--bullish)} .tile dd.rate-hold{color:var(--hold)}
-.tile .go{margin-top:auto;color:var(--accent);text-decoration:none;display:inline-flex;align-items:center;gap:8px;align-self:flex-start}
+.tile .go{margin-top:auto;color:var(--gs-blue);text-decoration:none;display:inline-flex;align-items:center;gap:8px;align-self:flex-start}
 .tile .go svg{transition:transform .2s}
+.tile a.go:hover{color:var(--gs-blue-hover)}
 .tile a.go:hover svg{transform:translateX(4px)}
 .tile.report{transition:box-shadow .2s}
-.tile.report:hover{box-shadow:0 0 0 1px var(--rule)}
+.tile.report:hover{box-shadow:0 0 0 1px #c9d6e6}
 .tile.dark{background:var(--charcoal);color:var(--white)}
 .tile.dark h4{font-size:15px;font-weight:700;letter-spacing:.01em;text-transform:uppercase;margin:0 0 18px;line-height:1.2}
 .tile.dark p{font-size:15px;line-height:1.35;margin:0}
