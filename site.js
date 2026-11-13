@@ -2,6 +2,7 @@
 (function () {
   'use strict';
   var S = SITE, P = S.profile;
+  var ARROW = '<svg width="18" height="12" viewBox="0 0 18 12" aria-hidden="true"><path d="M0 6h16M11 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>';
 
   function esc(s) {
     return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
@@ -14,164 +15,76 @@
   }
   function upside(r) { var a = Number(r.price), b = Number(r.target); return a && b ? (b / a - 1) * 100 : null; }
   function pct(u) { return u == null ? '—' : (u >= 0 ? '+' : '−') + Math.abs(u).toFixed(1) + '%'; }
-  function ratingKey(r) {
+  function rateClass(r) {
     r = (r || '').toLowerCase();
-    if (r === 'bullish' || r === 'buy') return 'bullish';
-    if (r === 'bearish' || r === 'sell') return 'bearish';
-    if (r === 'hold') return 'hold';
-    return 'none';
+    return r === 'bullish' || r === 'buy' ? 'rate-bullish' : r === 'hold' ? 'rate-hold' : '';
   }
   function ext(url) { return /^https?:\/\//.test(url) ? ' target="_blank" rel="noopener"' : ''; }
-  function slug(t) { return 'r-' + String(t).toLowerCase().replace(/[^a-z0-9]+/g, ''); }
   function set(id, html) { var el = document.getElementById(id); if (el) el.innerHTML = html; }
+  var job = S.experience[0] || {};
 
-  /* ---- profile ---- */
-  var h = '<div class="profile"><div><p class="label">' + esc(P.focus) + '</p><h1>' + esc(P.name) + '</h1><p class="lede">' + esc(P.lede) + '</p><dl class="ledger">';
-  P.ledger.forEach(function (row) { h += '<div><dt>' + esc(row[0]) + '</dt><dd>' + esc(row[1]) + '</dd></div>'; });
-  h += '</dl></div>';
-  if (P.headshot) h += '<figure class="portrait"><div class="frame"><img src="' + esc(P.headshot) + '" alt="Portrait of ' + esc(P.name) + '" width="480" height="600"></div><figcaption><span>' + esc(P.name) + '</span><span>' + esc(P.location) + '</span></figcaption></figure>';
-  h += '</div>';
-  set('profile', h);
+  /* ---- profile band ---- */
+  var h = '<div class="person">' + (P.headshot ? '<img src="' + esc(P.headshot) + '" alt="Portrait of ' + esc(P.name) + '" width="100" height="100">' : '<span></span>') +
+    '<div><p class="statement">' + esc(P.lede) + '</p><p class="who"><b>' + esc(P.name) + '</b><span>' + esc(job.role || '') + ', ' + esc(job.firm || '') + '</span></p></div></div>';
+  h += '<ul class="facts">';
+  P.ledger.forEach(function (row) { h += '<li><b>' + esc(row[0]) + '</b><span>' + esc(row[1]) + '</span></li>'; });
+  h += '</ul>';
+  set('band', h);
 
-  /* ---- coverage strip ---- */
-  h = '<ol aria-label="Coverage"><li>Coverage</li>';
-  S.reports.forEach(function (r) {
-    h += '<li><a href="#' + slug(r.ticker) + '"><b>' + esc(r.ticker) + '</b><span class="r">' + esc(r.rating || 'Not rated') + '</span><span class="u">' + pct(upside(r)) + '</span></a></li>';
+  /* ---- report tiles, with context tiles placed between them ---- */
+  function reportTile(r, i) {
+    var u = upside(r);
+    var t = '<article class="tile report" id="r-' + esc(String(r.ticker).toLowerCase()) + '"><p class="n" aria-hidden="true">' + (i + 1) + '</p>';
+    t += '<h3>' + esc(r.company) + '</h3><p class="meta">' + esc(r.ticker) + ' · ' + esc(r.industry) + '</p>';
+    t += '<p class="thesis">' + esc(r.summary) + '</p>';
+    t += '<dl><dt>Rating</dt><dd class="' + rateClass(r.rating) + '">' + esc(r.rating || 'Not rated') + '</dd>' +
+      '<dt>Price</dt><dd>' + money(r.price) + '</dd>' +
+      '<dt>1-yr target</dt><dd>' + money(r.target) + '</dd>' +
+      '<dt>Implied upside</dt><dd>' + pct(u) + '</dd>' +
+      (r.fair ? '<dt>Fair value</dt><dd>' + esc(r.fair) + '</dd>' : '') + '</dl>';
+    if (r.pdf) t += '<a class="go caps" href="' + esc(r.pdf) + '" data-pdf="' + esc(r.company) + '"' + ext(r.pdf) + '>Read report<span class="visually-hidden"> on ' + esc(r.company) + '</span> ' + ARROW + '</a>';
+    return t + '</article>';
+  }
+
+  var mandate = '<aside class="tile dark"><h4>The mandate</h4>';
+  (job.figures || []).forEach(function (f) { mandate += '<div class="stat"><span class="big">' + esc(f[0]) + '</span><p>' + esc(f[1]) + '</p></div>'; });
+  mandate += '<p class="foot caps">' + esc(job.firm || '') + '</p></aside>';
+
+  var guide = '<aside class="tile dark"><h4>How to read each report</h4>' +
+    '<div class="tip"><b>1. Rating</b><p>Our call on the holding: Bullish, Hold or Bearish, as written in the report.</p></div>' +
+    '<div class="tip"><b>2. Price and target</b><p>The share price when the report was written and our one-year price target.</p></div>' +
+    '<div class="tip"><b>3. Implied upside</b><p>Target divided by price, minus one. Fair value is the estimate the report cites.</p></div></aside>';
+
+  var coverage = '<aside class="tile dark"><h4>Coverage at a glance</h4><table><caption class="visually-hidden">Ticker, rating and implied upside</caption><tbody>';
+  S.reports.forEach(function (r) { coverage += '<tr><td><a href="#r-' + esc(String(r.ticker).toLowerCase()) + '">' + esc(r.ticker) + '</a> · ' + esc(r.rating || 'Not rated') + '</td><td>' + pct(upside(r)) + '</td></tr>'; });
+  coverage += '</tbody></table><p class="foot caps" style="margin-top:auto;padding-top:18px">' + S.reports.length + ' reports</p></aside>';
+
+  var tiles = S.reports.map(reportTile);
+  var out = [];
+  tiles.forEach(function (t, i) {
+    out.push(t);
+    if (i === 1) out.push(mandate);
+    if (i === 3) out.push(guide);
   });
-  set('strip', h + '</ol>');
+  out.push(coverage);
+  set('tiles', out.join(''));
 
   /* ---- experience ---- */
   h = '';
   S.experience.forEach(function (j) {
-    h += '<article><header class="role-head"><h3>' + esc(j.firm) + '</h3><span class="dates">' + esc(j.dates) + '</span><span class="where">' + esc(j.place) + '</span></header>';
-    h += '<p class="role-title">' + esc(j.role) + '</p>';
-    if (j.figures && j.figures.length) {
-      h += '<div class="figures">';
-      j.figures.forEach(function (f) { h += '<div><b>' + esc(f[0]) + '</b><span>' + esc(f[1]) + '</span></div>'; });
-      h += '</div>';
-    }
-    h += '<dl class="duties">';
-    j.duties.forEach(function (d) { h += '<div><dt>' + esc(d[0]) + '</dt><dd>' + esc(d[1]) + '</dd></div>'; });
-    h += '</dl></article>';
+    h += '<article class="role"><div class="top"><h3>' + esc(j.firm) + '</h3><span class="when">' + esc(j.dates) + ' · ' + esc(j.place) + '</span></div><p class="title caps">' + esc(j.role) + '</p><ol class="duties">';
+    j.duties.forEach(function (d) { h += '<li><b>' + esc(d[0]) + '</b><span>' + esc(d[1]) + '</span></li>'; });
+    h += '</ol></article>';
   });
   set('experience-body', h);
 
-  /* ---- research library ---- */
-  var order = S.reports.map(function (_, i) { return i; });
-  var counts = {};
-  S.reports.forEach(function (r) { var k = r.rating || 'Not rated'; counts[k] = (counts[k] || 0) + 1; });
-  var countText = Object.keys(counts).map(function (k) { return '<i>' + counts[k] + '</i> ' + esc(k); }).join(' · ');
-
-  function libraryRows() {
-    return order.map(function (i) {
-      var r = S.reports[i], u = upside(r), k = ratingKey(r.rating);
-      var pdf = esc(r.pdf || '');
-      var row = '<tr id="' + slug(r.ticker) + '">';
-      row += '<td class="c-thumb">' + (r.cover && r.pdf ? '<a class="thumb" href="' + pdf + '" data-pdf="' + esc(r.company) + '"' + ext(r.pdf) + ' tabindex="-1" aria-hidden="true"><img src="' + esc(r.cover) + '" alt=""></a>' : '') + '</td>';
-      row += '<td class="c-co"><div class="co"><b>' + esc(r.company) + '</b><span class="tk">' + esc(r.ticker) + '</span></div><div class="ind">' + esc(r.industry) + '</div><p class="thesis">' + esc(r.summary) + '</p>' + (r.authors ? '<p class="by">' + esc(r.authors) + '</p>' : '') + (r.pdf ? '<a class="open" href="' + pdf + '" data-pdf="' + esc(r.company) + '"' + ext(r.pdf) + '>Read the report<span class="visually-hidden"> on ' + esc(r.company) + '</span> <span aria-hidden="true">↗</span></a>' : '') + '</td>';
-      row += '<td class="c-rating"><span class="rating ' + k + '">' + esc(r.rating || 'Not rated') + '</span></td>';
-      row += '<td class="num" data-label="Price">' + money(r.price) + '</td>';
-      row += '<td class="num" data-label="1-yr target">' + money(r.target) + (r.fair ? '<span class="fvline">Fair value ' + esc(r.fair) + '</span>' : '') + '</td>';
-      row += '<td class="num ' + (u == null ? '' : u >= 0 ? 'up' : 'dn') + '" data-label="Implied upside">' + pct(u) + '</td>';
-      return row + '</tr>';
-    }).join('');
-  }
-
-  h = '<div class="lib-head"><span class="counts">' + S.reports.length + ' reports · ' + countText + '</span><div class="sort" role="group" aria-label="Sort reports"><span>Sort</span>' +
-    '<button type="button" data-sort="default" aria-pressed="true">Default</button>' +
-    '<button type="button" data-sort="upside" aria-pressed="false">Upside</button>' +
-    '<button type="button" data-sort="company" aria-pressed="false">Company</button></div></div>';
-  h += '<table class="library"><caption class="visually-hidden">Equity research reports with rating, price, target and implied upside</caption><thead><tr><th scope="col"><span class="visually-hidden">Preview</span></th><th scope="col">Company</th><th scope="col">Rating</th><th scope="col" class="num">Price</th><th scope="col" class="num">1-yr target / fair value</th><th scope="col" class="num">Upside</th></tr></thead><tbody id="library-rows">' + libraryRows() + '</tbody></table>';
-  h += '<p class="lib-note">Price is the share price at the time of each report. Implied upside = one-year price target ÷ price − 1. Fair value is the estimate cited in the report. Reports are student research written for the Davis Student Investment Management Group.</p>';
-  set('research-body', h);
-
-  document.addEventListener('click', function (e) {
-    var b = e.target.closest('[data-sort]');
-    if (!b) return;
-    var mode = b.getAttribute('data-sort');
-    order = S.reports.map(function (_, i) { return i; });
-    if (mode === 'upside') order.sort(function (a, c) { return (upside(S.reports[c]) || -1e9) - (upside(S.reports[a]) || -1e9); });
-    if (mode === 'company') order.sort(function (a, c) { return S.reports[a].company.localeCompare(S.reports[c].company); });
-    document.querySelectorAll('[data-sort]').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
-    document.getElementById('library-rows').innerHTML = libraryRows();
-  });
-
-  /* ---- quantitative research ---- */
-  h = '';
-  (S.research || []).forEach(function (p) {
-    h += '<article class="paper"><div class="paper-meta"><b>Working paper</b><span>' + esc(p.venue) + '</span><span>' + esc(p.year) + '</span></div>';
-    h += '<h3>' + esc(p.title) + '</h3><p class="abstract">' + esc(p.abstract) + '</p>';
-    if (p.data) {
-      h += '<dl class="specs">';
-      p.data.forEach(function (d) { h += '<div><dt>' + esc(d[0]) + '</dt><dd>' + esc(d[1]) + '</dd></div>'; });
-      h += '</dl>';
-    }
-    if (p.method) {
-      h += '<ol class="method" aria-label="Method">';
-      p.method.forEach(function (m) { h += '<li><b>' + esc(m[0]) + '</b><span>' + esc(m[1]) + '</span></li>'; });
-      h += '</ol>';
-    }
-    h += '<div class="exhibits">';
-    if (p.transitions) {
-      var T = p.transitions;
-      h += '<figure class="exhibit"><figcaption><span class="label">Exhibit 1</span>Bayesian transition matrix and expected regime duration</figcaption><table><thead><tr><th scope="col">From \\ To</th>';
-      T.labels.forEach(function (l) { h += '<th scope="col">' + esc(l.replace(' Vol', '')) + '</th>'; });
-      h += '<th scope="col">Days</th></tr></thead><tbody>';
-      T.matrix.forEach(function (row, i) {
-        h += '<tr><td style="font-family:var(--font-body);font-size:13.5px">' + esc(T.labels[i]) + '</td>';
-        row.forEach(function (v) { h += '<td class="cell" style="--a:' + (0.05 + v * 0.22).toFixed(3) + '"><span>' + v.toFixed(3) + '</span></td>'; });
-        h += '<td>' + T.duration[i].toFixed(1) + '</td></tr>';
-      });
-      h += '</tbody></table><p class="src">Daily SPY, 2004–2024 training sample. Days = expected time in a regime before it changes, 1 ÷ (1 − persistence).</p></figure>';
-    }
-    if (p.events) {
-      h += '<figure class="exhibit"><figcaption><span class="label">Exhibit 2</span>Share of trading days in each regime during known stress periods</figcaption><table><thead><tr><th scope="col">Event</th><th scope="col">Days</th><th scope="col">Low</th><th scope="col">Med</th><th scope="col">High</th></tr></thead><tbody>';
-      p.events.forEach(function (ev) {
-        var mx = Math.max(ev[2], ev[3], ev[4]);
-        h += '<tr><td style="font-family:var(--font-body);font-size:13.5px">' + esc(ev[0]) + '</td><td>' + ev[1] + '</td>';
-        [ev[2], ev[3], ev[4]].forEach(function (v) { h += '<td' + (v === mx ? ' style="color:var(--text);font-weight:600"' : ' style="color:var(--muted)"') + '>' + v.toFixed(1) + '%</td>'; });
-        h += '</tr>';
-      });
-      h += '</tbody></table><p class="src">The model was not given the event dates; most crisis days fall in the medium and high volatility regimes.</p></figure>';
-    }
-    h += '</div>';
-    if (p.links) {
-      h += '<div class="paper-links">';
-      p.links.forEach(function (l) { h += '<a href="' + esc(l[1]) + '" target="_blank" rel="noopener">' + esc(l[0]) + '</a>'; });
-      h += '</div>';
-    }
-    h += '</article>';
-  });
-  set('quant-body', h);
-
   /* ---- contact ---- */
-  h = '<dl>';
-  if (P.phone) h += '<div><dt>Telephone</dt><dd><a href="tel:' + esc(P.phone.replace(/[^0-9+]/g, '')) + '">' + esc(P.phone) + '</a></dd></div>';
-  if (P.email) h += '<div><dt>Email</dt><dd><a href="mailto:' + esc(P.email) + '">' + esc(P.email) + '</a></dd></div>';
-  if (P.linkedin) h += '<div><dt>LinkedIn</dt><dd><a href="' + esc(P.linkedin) + '" target="_blank" rel="noopener">' + esc(P.linkedin.replace(/^https?:\/\/(www\.)?/, '')) + '</a></dd></div>';
-  if (P.github) h += '<div><dt>GitHub</dt><dd><a href="' + esc(P.github) + '" target="_blank" rel="noopener">' + esc(P.github.replace(/^https?:\/\//, '')) + '</a></dd></div>';
-  h += '<div><dt>Based in</dt><dd>' + esc(P.location) + '</dd></div></dl>';
-  set('contact-body', h);
-  set('footer-text', '<p>© ' + new Date().getFullYear() + ' ' + esc(P.name) + '. Research on this site is student work and is not investment advice.</p>');
-
-  /* ---- navigation: mobile menu and current section ---- */
-  var btn = document.querySelector('.menu-btn'), list = document.getElementById('nav-list');
-  if (btn) btn.addEventListener('click', function () {
-    var open = list.classList.toggle('open');
-    btn.setAttribute('aria-expanded', String(open));
-  });
-  list.addEventListener('click', function (e) { if (e.target.closest('a') && btn) { list.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); } });
-  if ('IntersectionObserver' in window) {
-    var links = {};
-    list.querySelectorAll('a.link').forEach(function (a) { links[a.getAttribute('href').slice(1)] = a; });
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (en) {
-        if (en.isIntersecting && links[en.target.id]) {
-          Object.keys(links).forEach(function (k) { links[k].removeAttribute('aria-current'); });
-          links[en.target.id].setAttribute('aria-current', 'true');
-        }
-      });
-    }, { rootMargin: '-40% 0px -55% 0px' });
-    Object.keys(links).forEach(function (id) { var s = document.getElementById(id); if (s) io.observe(s); });
-  }
+  h = '';
+  if (P.phone) h += '<li><b class="caps">Telephone</b><a href="tel:' + esc(P.phone.replace(/[^0-9+]/g, '')) + '">' + esc(P.phone) + '</a></li>';
+  if (P.email) h += '<li><b class="caps">Email</b><a href="mailto:' + esc(P.email) + '">' + esc(P.email) + '</a></li>';
+  if (P.linkedin) h += '<li><b class="caps">LinkedIn</b><a href="' + esc(P.linkedin) + '" target="_blank" rel="noopener">LinkedIn profile</a></li>';
+  if (P.github) h += '<li><b class="caps">GitHub</b><a href="' + esc(P.github) + '" target="_blank" rel="noopener">' + esc(P.github.replace(/^https?:\/\/(www\.)?github\.com\//, '')) + '</a></li>';
+  h += '<li><b class="caps">Based in</b><span>' + esc(P.location) + '</span></li>';
+  set('contact-list', h);
+  set('footer-text', '<p>© ' + new Date().getFullYear() + ' ' + esc(P.name) + '</p><p>Student research for the Davis Student Investment Management Group. Not investment advice.</p>');
 })();
